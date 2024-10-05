@@ -1,18 +1,24 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import React, { useState } from "react";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import products from "@/assets/myData/products";
 import Colors from "@/src/constants/Colors";
 import { defaultPizzaImage } from "@/src/components/ProductListItem";
 import Button from "@/src/components/Button";
+import { useCart } from "@/src/providers/CartProvider";
+import { PizzaSize } from "@/src/types";
 
 const ProductDetailsScreen = () => {
-  const [pressed, setPressed] = useState("");
   const { id } = useLocalSearchParams();
   const product = products.find((p) => p.id === Number(id));
+  const { addItem } = useCart();
+  const [selectedSize, setSetselectedSize] = useState<PizzaSize>("M");
+  const router = useRouter();
 
   const addToCard = () => {
-    console.warn("Add to cart");
+    if (!product) return;
+    addItem(product, selectedSize);
+    router.push("/cart");
   };
 
   if (!product) {
@@ -34,36 +40,36 @@ const ProductDetailsScreen = () => {
             <Pressable
               style={[
                 styles.sizeButton,
-                pressed === "S" ? { backgroundColor: "gainsboro" } : {},
+                selectedSize === "S" ? { backgroundColor: "gainsboro" } : {},
               ]}
-              onPress={() => setPressed("S")}
+              onPress={() => setSetselectedSize("S")}
             >
               <Text style={{ fontSize: 20, fontWeight: "500" }}>S</Text>
             </Pressable>
             <Pressable
               style={[
                 styles.sizeButton,
-                pressed === "M" ? { backgroundColor: "gainsboro" } : {},
+                selectedSize === "M" ? { backgroundColor: "gainsboro" } : {},
               ]}
-              onPress={() => setPressed("M")}
+              onPress={() => setSetselectedSize("M")}
             >
               <Text style={{ fontSize: 20, fontWeight: "500" }}>M</Text>
             </Pressable>
             <Pressable
               style={[
                 styles.sizeButton,
-                pressed === "L" ? { backgroundColor: "gainsboro" } : {},
+                selectedSize === "L" ? { backgroundColor: "gainsboro" } : {},
               ]}
-              onPress={() => setPressed("L")}
+              onPress={() => setSetselectedSize("L")}
             >
               <Text style={{ fontSize: 20, fontWeight: "500" }}>L</Text>
             </Pressable>
             <Pressable
               style={[
                 styles.sizeButton,
-                pressed === "XL" ? { backgroundColor: "gainsboro" } : {},
+                selectedSize === "XL" ? { backgroundColor: "gainsboro" } : {},
               ]}
-              onPress={() => setPressed("XL")}
+              onPress={() => setSetselectedSize("XL")}
             >
               <Text style={{ fontSize: 20, fontWeight: "500" }}>XL</Text>
             </Pressable>
