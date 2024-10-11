@@ -1,9 +1,21 @@
-import { FlatList, View } from "react-native";
-import products from "@assets/myData/products";
+import { useProductList } from "@/src/api/products";
 import ProductListItem from "@components/ProductListItem";
-import { Stack } from "expo-router";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 export default function MenuScreen() {
+  const { data: products, isLoading, error } = useProductList();
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return (
+      <View>
+        <Text>Error: {error.message}</Text>
+      </View>
+    );
+  }
   return (
     <View>
       <FlatList
