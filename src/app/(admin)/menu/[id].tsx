@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Pressable,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { Link, Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -47,6 +48,8 @@ const ProductDetailsScreen = () => {
   if (!product) {
     return <Text>Product not found</Text>;
   }
+
+  Alert.alert("id", id.toString());
 
   return (
     <View style={styles.container}>
